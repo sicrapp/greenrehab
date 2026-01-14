@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="th">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แบบประเมินความพึงพอใจโครงการอบรม</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #F0FFDF 0%, #FFD8DF 100%);
+            overflow-x: hidden;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100%;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .survey-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #A8DF8E 0%, #A8DF8E 100%);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            display: block;
+            object-fit: contain;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 16px;
+        }
+
+        .form-content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #59AC77;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #F0FFDF;
+        }
+
+        .section-icon {
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            background: #F0FFDF;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .radio-option:hover {
+            background: #FFD8DF;
+            transform: translateX(4px);
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #A8DF8E;
+        }
+
+        .radio-option.selected {
+            background: #FFAAB8;
+            border-color: #FFAAB8;
+            color: white;
+            font-weight: 500;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px 18px;
+            font-family: 'Kanit', sans-serif;
+            font-size: 16px;
+            border: 2px solid #F0FFDF;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #A8DF8E;
+            box-shadow: 0 0 0 4px rgba(168, 223, 142, 0.1);
+        }
+
+        .rating-section {
+            margin-bottom: 32px;
+        }
+
+        .rating-question {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .rating-scale {
+            display: flex;
+            gap: 0;
+            justify-content: stretch;
+            flex-wrap: nowrap;
+        }
+
+        .rating-button {
+            flex: 1;
+            min-width: 60px;
+            padding: 16px;
+            text-align: center;
+            background: #F0FFDF;
+            border: 2px solid #E0F0CF;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Kanit', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .rating-button:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .rating-button:last-child {
+            border-radius: 0 8px 8px 0;
+        }
+
+        .rating-button:hover {
+            background: #FFD8DF;
+            transform: translateY(-2px);
+        }
+
+        .rating-button.selected {
+            background: #A8DF8E;
+            border-color: #A8DF8E;
+            color: white;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 14px 18px;
+            font-family: 'Kanit', sans-serif;
+            font-size: 16px;
+            border: 2px solid #F0FFDF;
+            border-radius: 12px;
+            resize: vertical;
+            min-height: 100px;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #A8DF8E;
+            box-shadow: 0 0 0 4px rgba(168, 223, 142, 0.1);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #A8DF8E 0%, #A8DF8E 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Kanit', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(168, 223, 142, 0.4);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(168, 223, 142, 0.5);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        .submit-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .form-content {
+                padding: 30px 20px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .rating-scale {
+                gap: 6px;
+            }
+
+            .rating-button {
+                min-width: 50px;
+                padding: 10px 6px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .rating-scale {
+                flex-direction: column;
+            }
+
+            .rating-button {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <div class="survey-wrapper">
+    <div class="header"><img src="https://img5.pic.in.th/file/secure-sv1/Geen.png" alt="Green Office Logo" class="header-logo" onerror="this.style.display='none'; this.alt='Logo failed to load';">
+     <h1 id="survey-title">แบบประเมินความพึงพอใจโครงการอบรมสำนักงานสีเขียว<br>
+      Green start - Smart office</h1>
+     <p>กรุณาตอบแบบสอบถามทุกข้อ</p>
+    </div>
+    <form id="surveyForm" class="form-content"><!-- ส่วนที่ 1: ข้อมูลทั่วไป -->
+     <div class="section">
+      <div class="section-title"><span class="section-icon">👤</span> <span>ส่วนที่ 1: ข้อมูลทั่วไปของผู้ตอบแบบสอบถาม</span>
+      </div>
+      <div class="form-group"><label class="form-label">เพศ <span style="color: #FFAAB8;">*</span></label>
+       <div class="radio-group"><label class="radio-option"> <input type="radio" name="gender" value="ชาย" required> <span>ชาย</span> </label> <label class="radio-option"> <input type="radio" name="gender" value="หญิง" required> <span>หญิง</span> </label> <label class="radio-option"> <input type="radio" name="gender" value="อื่นๆ" required> <span>อื่นๆ</span> </label>
+       </div>
+      </div>
+      <div class="form-group"><label class="form-label">ช่วงอายุ <span style="color: #FFAAB8;">*</span></label>
+       <div class="radio-group"><label class="radio-option"> <input type="radio" name="age" value="18-24 ปี" required> <span>18-24 ปี</span> </label> <label class="radio-option"> <input type="radio" name="age" value="25-35 ปี" required> <span>25-35 ปี</span> </label> <label class="radio-option"> <input type="radio" name="age" value="36-45 ปี" required> <span>36-45 ปี</span> </label> <label class="radio-option"> <input type="radio" name="age" value="45 ปีขึ้นไป" required> <span>45 ปีขึ้นไป</span> </label>
+       </div>
+      </div>
+      <div class="form-group"><label class="form-label">หน่วยงาน/แผนก <span style="color: #FFAAB8;">*</span></label> <select name="department" required> <option value="">-- เลือกหน่วยงาน/แผนก --</option> <option value="สำนักงานเวชศาสตร์ฟื้นฟู">สำนักงานเวชศาสตร์ฟื้นฟู</option> <option value="สาขากายภาพบำบัด">สาขากายภาพบำบัด</option> <option value="สาขากิจกรรมบำบัด">สาขากิจกรรมบำบัด</option> <option value="สาขาอรรถบำบัด">สาขาอรรถบำบัด</option> <option value="หน่วยจิตวิทยาการปรึกษาและนันทนาการ">หน่วยจิตวิทยาการปรึกษาและนันทนาการ</option> <option value="หน่วยสังคมสงเคราะห์">หน่วยสังคมสงเคราะห์</option> <option value="สาขาเวชศาสตร์ฟื้นฟูเด็ก">สาขาเวชศาสตร์ฟื้นฟูเด็ก</option> <option value="สาขาเวชศาสตร์ฟื้นฟูหัวใจและปอด">สาขาเวชศาสตร์ฟื้นฟูหัวใจและปอด</option> </select>
+      </div>
+     </div><!-- ส่วนที่ 2: การประเมินความพึงพอใจ -->
+     <div class="section">
+      <div class="section-title"><span class="section-icon">⭐</span> <span>ส่วนที่ 2: การประเมินความพึงพอใจ</span>
+      </div>
+      <p style="color: #666; margin-bottom: 24px; font-size: 14px;">5 = มากที่สุด | 4 = มาก | 3 = ปานกลาง | 2 = น้อย | 1 = น้อยที่สุด</p>
+      <div class="rating-section">
+       <div class="rating-question">
+        1. วิทยากรสามารถถ่ายทอดความรู้ชัดเจนและเข้าใจง่าย <span style="color: #FFAAB8;">*</span>
+       </div>
+       <div class="rating-scale" data-question="q1"><button type="button" class="rating-button" data-value="5">5</button> <button type="button" class="rating-button" data-value="4">4</button> <button type="button" class="rating-button" data-value="3">3</button> <button type="button" class="rating-button" data-value="2">2</button> <button type="button" class="rating-button" data-value="1">1</button>
+       </div>
+      </div>
+      <div class="rating-section">
+       <div class="rating-question">
+        2. เนื้อหาตรงตามวัตถุประสงค์และหัวข้อการอบรม <span style="color: #FFAAB8;">*</span>
+       </div>
+       <div class="rating-scale" data-question="q2"><button type="button" class="rating-button" data-value="5">5</button> <button type="button" class="rating-button" data-value="4">4</button> <button type="button" class="rating-button" data-value="3">3</button> <button type="button" class="rating-button" data-value="2">2</button> <button type="button" class="rating-button" data-value="1">1</button>
+       </div>
+      </div>
+      <div class="rating-section">
+       <div class="rating-question">
+        3. สถานที่สะอาดและมีความเหมาะสม <span style="color: #FFAAB8;">*</span>
+       </div>
+       <div class="rating-scale" data-question="q3"><button type="button" class="rating-button" data-value="5">5</button> <button type="button" class="rating-button" data-value="4">4</button> <button type="button" class="rating-button" data-value="3">3</button> <button type="button" class="rating-button" data-value="2">2</button> <button type="button" class="rating-button" data-value="1">1</button>
+       </div>
+      </div>
+      <div class="rating-section">
+       <div class="rating-question">
+        4. ความเหมาะสมของระยะเวลาการอบรม <span style="color: #FFAAB8;">*</span>
+       </div>
+       <div class="rating-scale" data-question="q4"><button type="button" class="rating-button" data-value="5">5</button> <button type="button" class="rating-button" data-value="4">4</button> <button type="button" class="rating-button" data-value="3">3</button> <button type="button" class="rating-button" data-value="2">2</button> <button type="button" class="rating-button" data-value="1">1</button>
+       </div>
+      </div>
+      <div class="rating-section">
+       <div class="rating-question">
+        5. สามารถนำความรู้ที่ได้รับไปประยุกต์ใช้ในการปฏิบัติงานได้จริง <span style="color: #FFAAB8;">*</span>
+       </div>
+       <div class="rating-scale" data-question="q5"><button type="button" class="rating-button" data-value="5">5</button> <button type="button" class="rating-button" data-value="4">4</button> <button type="button" class="rating-button" data-value="3">3</button> <button type="button" class="rating-button" data-value="2">2</button> <button type="button" class="rating-button" data-value="1">1</button>
+       </div>
+      </div>
+      <div class="rating-section">
+       <div class="rating-question">
+        6. ความเหมาะสมของอาหารและเครื่องดื่ม <span style="color: #FFAAB8;">*</span>
+       </div>
+       <div class="rating-scale" data-question="q6"><button type="button" class="rating-button" data-value="5">5</button> <button type="button" class="rating-button" data-value="4">4</button> <button type="button" class="rating-button" data-value="3">3</button> <button type="button" class="rating-button" data-value="2">2</button> <button type="button" class="rating-button" data-value="1">1</button>
+       </div>
+      </div>
+      <div class="rating-section">
+       <div class="rating-question">
+        7. การให้บริการของเจ้าหน้าที่สนับสนุน <span style="color: #FFAAB8;">*</span>
+       </div>
+       <div class="rating-scale" data-question="q7"><button type="button" class="rating-button" data-value="5">5</button> <button type="button" class="rating-button" data-value="4">4</button> <button type="button" class="rating-button" data-value="3">3</button> <button type="button" class="rating-button" data-value="2">2</button> <button type="button" class="rating-button" data-value="1">1</button>
+       </div>
+      </div>
+      <div class="rating-section">
+       <div class="rating-question">
+        8. ความพึงพอใจโดยรวม <span style="color: #FFAAB8;">*</span>
+       </div>
+       <div class="rating-scale" data-question="q8"><button type="button" class="rating-button" data-value="5">5</button> <button type="button" class="rating-button" data-value="4">4</button> <button type="button" class="rating-button" data-value="3">3</button> <button type="button" class="rating-button" data-value="2">2</button> <button type="button" class="rating-button" data-value="1">1</button>
+       </div>
+      </div>
+     </div><!-- ส่วนที่ 3: ข้อเสนอแนะ -->
+     <div class="section">
+      <div class="section-title"><span class="section-icon">💭</span> <span>ส่วนที่ 3: ข้อเสนอแนะอื่นๆ</span>
+      </div>
+      <div class="form-group"><label class="form-label">สิ่งที่ประทับใจ</label> <textarea name="impressed" placeholder="กรุณาระบุสิ่งที่ประทับใจ..."></textarea>
+      </div>
+      <div class="form-group"><label class="form-label">ข้อควรปรับปรุง</label> <textarea name="improvement" placeholder="กรุณาระบุข้อควรปรับปรุง..."></textarea>
+      </div>
+     </div><button type="submit" class="submit-button"> ส่งแบบประเมิน </button>
+    </form>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            survey_title: 'แบบประเมินความพึงพอใจโครงการอบรมสำนักงานสีเขียว Green start - Smart office',
+            success_message: 'ขอบคุณสำหรับการตอบแบบประเมิน'
+        };
+
+        const ratings = {
+            q1: null,
+            q2: null,
+            q3: null,
+            q4: null,
+            q5: null,
+            q6: null,
+            q7: null,
+            q8: null
+        };
+
+        // Handle rating buttons
+        document.querySelectorAll('.rating-scale').forEach(scale => {
+            const question = scale.dataset.question;
+            const buttons = scale.querySelectorAll('.rating-button');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    buttons.forEach(btn => btn.classList.remove('selected'));
+                    button.classList.add('selected');
+                    ratings[question] = button.dataset.value;
+                });
+            });
+        });
+
+        // Handle radio button styling
+        document.querySelectorAll('.radio-option input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const group = this.closest('.radio-group');
+                group.querySelectorAll('.radio-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                this.closest('.radio-option').classList.add('selected');
+            });
+        });
+
+        // Form submission
+        document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Validate all ratings are selected
+            const allRated = Object.values(ratings).every(rating => rating !== null);
+            if (!allRated) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณาประเมินให้ครบทุกข้อ',
+                    text: 'โปรดให้คะแนนในทุกคำถามก่อนส่งแบบประเมิน',
+                    confirmButtonColor: '#A8DF8E',
+                    confirmButtonText: 'ตรวจสอบอีกครั้ง'
+                });
+                return;
+            }
+
+            const formData = new FormData(this);
+            const data = {
+                timestamp: new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' }),
+                gender: formData.get('gender'),
+                age: formData.get('age'),
+                department: formData.get('department'),
+                q1: ratings.q1,
+                q2: ratings.q2,
+                q3: ratings.q3,
+                q4: ratings.q4,
+                q5: ratings.q5,
+                q6: ratings.q6,
+                q7: ratings.q7,
+                q8: ratings.q8,
+                impressed: formData.get('impressed') || '-',
+                improvement: formData.get('improvement') || '-'
+            };
+
+            // Show loading
+            Swal.fire({
+                title: 'กำลังบันทึกข้อมูล...',
+                html: 'กรุณารอสักครู่',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            try {
+                // Send data using JSONP
+                const response = await sendDataViaJSONP(data);
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'บันทึกสำเร็จ! 🎉',
+                    html: `<p style="font-size: 18px; margin-top: 10px;">${defaultConfig.success_message}</p>`,
+                    confirmButtonColor: '#A8DF8E',
+                    confirmButtonText: 'ปิด'
+                }).then(() => {
+                    // Reset form
+                    document.getElementById('surveyForm').reset();
+                    document.querySelectorAll('.radio-option').forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    document.querySelectorAll('.rating-button').forEach(button => {
+                        button.classList.remove('selected');
+                    });
+                    Object.keys(ratings).forEach(key => {
+                        ratings[key] = null;
+                    });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง',
+                    confirmButtonColor: '#FFAAB8',
+                    confirmButtonText: 'ลองอีกครั้ง'
+                });
+            }
+        });
+
+        function sendDataViaJSONP(data) {
+            return new Promise((resolve, reject) => {
+                const callbackName = 'callback_' + Date.now();
+                const script = document.createElement('script');
+                const url = 'https://script.google.com/macros/s/AKfycbygrqqlImkieNkB7-rUbGqV_uQF--mHLOS-pBdWfIpl6NiQq6dthOrIwMOGABO8X4RZ/exec';
+                
+                window[callbackName] = function(response) {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    if (response.status === 'success') {
+                        resolve(response);
+                    } else {
+                        reject(new Error(response.message || 'Unknown error'));
+                    }
+                };
+
+                const params = new URLSearchParams({
+                    callback: callbackName,
+                    ...data
+                });
+
+                script.src = `${url}?${params.toString()}`;
+                script.onerror = () => {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    reject(new Error('Script loading failed'));
+                };
+                
+                document.body.appendChild(script);
+
+                // Timeout after 30 seconds
+                setTimeout(() => {
+                    if (window[callbackName]) {
+                        delete window[callbackName];
+                        document.body.removeChild(script);
+                        reject(new Error('Request timeout'));
+                    }
+                }, 30000);
+            });
+        }
+
+        async function onConfigChange(config) {
+            const titleElement = document.getElementById('survey-title');
+            if (titleElement) {
+                titleElement.innerHTML = (config.survey_title || defaultConfig.survey_title).replace(/\n/g, '<br>');
+            }
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ['survey_title', config.survey_title || defaultConfig.survey_title],
+                    ['success_message', config.success_message || defaultConfig.success_message]
+                ])
+            });
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bd92069f42e8943',t:'MTc2ODM1MTY5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
